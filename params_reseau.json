@@ -1,0 +1,10 @@
+{
+  "port_local": 5001,
+  "port_dest": 5002,
+  "timeout_ack": "500 ms",
+  "retries": "1",
+  "timeout_liaison": "5 s",
+  "rssi_min": -80.0,
+  "per_max": 5.0,
+  "latence_max": 99.99
+}

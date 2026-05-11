@@ -1,0 +1,147 @@
+# -*- coding: utf-8 -*-
+
+################################################################################
+## Form generated from reading UI file 'DialogParamsReseau.ui'
+##
+## Created by: Qt User Interface Compiler version 6.11.0
+##
+## WARNING! All changes made in this file will be lost when recompiling UI file!
+################################################################################
+
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
+    QMetaObject, QObject, QPoint, QRect,
+    QSize, QTime, QUrl, Qt)
+from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
+    QFont, QFontDatabase, QGradient, QIcon,
+    QImage, QKeySequence, QLinearGradient, QPainter,
+    QPalette, QPixmap, QRadialGradient, QTransform)
+from PySide6.QtWidgets import (QApplication, QComboBox, QDialog, QDoubleSpinBox,
+    QFrame, QLabel, QLineEdit, QPushButton,
+    QSizePolicy, QSpinBox, QWidget)
+
+class Ui_DialogParamsReseau(object):
+    def setupUi(self, DialogParamsReseau):
+        if not DialogParamsReseau.objectName():
+            DialogParamsReseau.setObjectName(u"DialogParamsReseau")
+        DialogParamsReseau.resize(520, 617)
+        self.frame_udp = QFrame(DialogParamsReseau)
+        self.frame_udp.setObjectName(u"frame_udp")
+        self.frame_udp.setGeometry(QRect(10, 10, 501, 171))
+        self.frame_udp.setFrameShape(QFrame.StyledPanel)
+        self.frame_udp.setFrameShadow(QFrame.Raised)
+        self.label_udp_title = QLabel(self.frame_udp)
+        self.label_udp_title.setObjectName(u"label_udp_title")
+        self.label_udp_title.setGeometry(QRect(10, 0, 160, 16))
+        self.label_port_ecoute_local = QLabel(self.frame_udp)
+        self.label_port_ecoute_local.setObjectName(u"label_port_ecoute_local")
+        self.label_port_ecoute_local.setGeometry(QRect(10, 30, 101, 16))
+        self.spinbox_port_local = QSpinBox(self.frame_udp)
+        self.spinbox_port_local.setObjectName(u"spinbox_port_local")
+        self.spinbox_port_local.setGeometry(QRect(170, 20, 321, 41))
+        self.spinbox_port_local.setMinimum(1)
+        self.spinbox_port_local.setMaximum(65535)
+        self.spinbox_port_local.setValue(5001)
+        self.label_port_destination = QLabel(self.frame_udp)
+        self.label_port_destination.setObjectName(u"label_port_destination")
+        self.label_port_destination.setGeometry(QRect(10, 80, 101, 16))
+        self.spinbox_port_dest = QSpinBox(self.frame_udp)
+        self.spinbox_port_dest.setObjectName(u"spinbox_port_dest")
+        self.spinbox_port_dest.setGeometry(QRect(170, 70, 321, 41))
+        self.spinbox_port_dest.setMinimum(1)
+        self.spinbox_port_dest.setMaximum(65535)
+        self.spinbox_port_dest.setValue(5002)
+        self.label_adresse_broadcast = QLabel(self.frame_udp)
+        self.label_adresse_broadcast.setObjectName(u"label_adresse_broadcast")
+        self.label_adresse_broadcast.setGeometry(QRect(10, 130, 101, 16))
+        self.lineEdit = QLineEdit(self.frame_udp)
+        self.lineEdit.setObjectName(u"lineEdit")
+        self.lineEdit.setGeometry(QRect(170, 120, 321, 41))
+        self.frame_timeouts = QFrame(DialogParamsReseau)
+        self.frame_timeouts.setObjectName(u"frame_timeouts")
+        self.frame_timeouts.setGeometry(QRect(10, 200, 501, 171))
+        self.frame_timeouts.setFrameShape(QFrame.StyledPanel)
+        self.frame_timeouts.setFrameShadow(QFrame.Raised)
+        self.label_timeouts_title = QLabel(self.frame_timeouts)
+        self.label_timeouts_title.setObjectName(u"label_timeouts_title")
+        self.label_timeouts_title.setGeometry(QRect(10, 0, 160, 16))
+        self.label_timeout_ack = QLabel(self.frame_timeouts)
+        self.label_timeout_ack.setObjectName(u"label_timeout_ack")
+        self.label_timeout_ack.setGeometry(QRect(10, 30, 101, 16))
+        self.combo_timeout_ack = QComboBox(self.frame_timeouts)
+        self.combo_timeout_ack.setObjectName(u"combo_timeout_ack")
+        self.combo_timeout_ack.setGeometry(QRect(170, 20, 330, 41))
+        self.label_nombre_retries = QLabel(self.frame_timeouts)
+        self.label_nombre_retries.setObjectName(u"label_nombre_retries")
+        self.label_nombre_retries.setGeometry(QRect(10, 80, 101, 16))
+        self.label_timeout_perdue = QLabel(self.frame_timeouts)
+        self.label_timeout_perdue.setObjectName(u"label_timeout_perdue")
+        self.label_timeout_perdue.setGeometry(QRect(10, 130, 160, 16))
+        self.combo_retries = QComboBox(self.frame_timeouts)
+        self.combo_retries.setObjectName(u"combo_retries")
+        self.combo_retries.setGeometry(QRect(170, 70, 330, 41))
+        self.combo_timeout_liaison = QComboBox(self.frame_timeouts)
+        self.combo_timeout_liaison.setObjectName(u"combo_timeout_liaison")
+        self.combo_timeout_liaison.setGeometry(QRect(170, 120, 330, 41))
+        self.frame_seuils_reseau = QFrame(DialogParamsReseau)
+        self.frame_seuils_reseau.setObjectName(u"frame_seuils_reseau")
+        self.frame_seuils_reseau.setGeometry(QRect(10, 390, 501, 171))
+        self.frame_seuils_reseau.setFrameShape(QFrame.StyledPanel)
+        self.frame_seuils_reseau.setFrameShadow(QFrame.Raised)
+        self.label_seuils_reseau_title = QLabel(self.frame_seuils_reseau)
+        self.label_seuils_reseau_title.setObjectName(u"label_seuils_reseau_title")
+        self.label_seuils_reseau_title.setGeometry(QRect(10, 0, 160, 16))
+        self.label_RSSI_minimum = QLabel(self.frame_seuils_reseau)
+        self.label_RSSI_minimum.setObjectName(u"label_RSSI_minimum")
+        self.label_RSSI_minimum.setGeometry(QRect(10, 30, 130, 16))
+        self.spinbox_rssi_min = QDoubleSpinBox(self.frame_seuils_reseau)
+        self.spinbox_rssi_min.setObjectName(u"spinbox_rssi_min")
+        self.spinbox_rssi_min.setGeometry(QRect(170, 20, 330, 41))
+        self.spinbox_rssi_min.setMinimum(-100)
+        self.spinbox_rssi_min.setMaximum(0)
+        self.spinbox_per_max = QDoubleSpinBox(self.frame_seuils_reseau)
+        self.spinbox_per_max.setObjectName(u"spinbox_per_max")
+        self.spinbox_per_max.setGeometry(QRect(170, 70, 330, 41))
+        self.spinbox_latence_max = QDoubleSpinBox(self.frame_seuils_reseau)
+        self.spinbox_latence_max.setObjectName(u"spinbox_latence_max")
+        self.spinbox_latence_max.setGeometry(QRect(170, 120, 330, 41))
+        self.label_PERmaximum = QLabel(self.frame_seuils_reseau)
+        self.label_PERmaximum.setObjectName(u"label_PERmaximum")
+        self.label_PERmaximum.setGeometry(QRect(10, 80, 130, 16))
+        self.label_latence_maximum = QLabel(self.frame_seuils_reseau)
+        self.label_latence_maximum.setObjectName(u"label_latence_maximum")
+        self.label_latence_maximum.setGeometry(QRect(10, 130, 160, 16))
+        self.btn_cancel = QPushButton(DialogParamsReseau)
+        self.btn_cancel.setObjectName(u"btn_cancel")
+        self.btn_cancel.setGeometry(QRect(20, 570, 101, 31))
+        self.btn_reset_reseau = QPushButton(DialogParamsReseau)
+        self.btn_reset_reseau.setObjectName(u"btn_reset_reseau")
+        self.btn_reset_reseau.setGeometry(QRect(210, 570, 101, 31))
+        self.btn_apply_reseau = QPushButton(DialogParamsReseau)
+        self.btn_apply_reseau.setObjectName(u"btn_apply_reseau")
+        self.btn_apply_reseau.setGeometry(QRect(390, 570, 101, 31))
+
+        self.retranslateUi(DialogParamsReseau)
+
+        QMetaObject.connectSlotsByName(DialogParamsReseau)
+    # setupUi
+
+    def retranslateUi(self, DialogParamsReseau):
+        DialogParamsReseau.setWindowTitle(QCoreApplication.translate("DialogParamsReseau", u"Param\u00e8tres r\u00e9seau", None))
+        self.label_udp_title.setText(QCoreApplication.translate("DialogParamsReseau", u"Configuration UDP", None))
+        self.label_port_ecoute_local.setText(QCoreApplication.translate("DialogParamsReseau", u"Port d'\u00e9coute local", None))
+        self.label_port_destination.setText(QCoreApplication.translate("DialogParamsReseau", u"Port destination", None))
+        self.label_adresse_broadcast.setText(QCoreApplication.translate("DialogParamsReseau", u"Adresse broadcast", None))
+        self.lineEdit.setText(QCoreApplication.translate("DialogParamsReseau", u"255.255.255.255", None))
+        self.label_timeouts_title.setText(QCoreApplication.translate("DialogParamsReseau", u"Timeouts et retries", None))
+        self.label_timeout_ack.setText(QCoreApplication.translate("DialogParamsReseau", u"Timeout ACK", None))
+        self.label_nombre_retries.setText(QCoreApplication.translate("DialogParamsReseau", u"Nombre de retries", None))
+        self.label_timeout_perdue.setText(QCoreApplication.translate("DialogParamsReseau", u"Timeout liaison perdue", None))
+        self.label_seuils_reseau_title.setText(QCoreApplication.translate("DialogParamsReseau", u"Seuils d'alerte r\u00e9seau", None))
+        self.label_RSSI_minimum.setText(QCoreApplication.translate("DialogParamsReseau", u"RSSI minimum (dBm)", None))
+        self.label_PERmaximum.setText(QCoreApplication.translate("DialogParamsReseau", u"PER maximum (%)", None))
+        self.label_latence_maximum.setText(QCoreApplication.translate("DialogParamsReseau", u"Latence maximum (ms)", None))
+        self.btn_cancel.setText(QCoreApplication.translate("DialogParamsReseau", u"Annuler", None))
+        self.btn_reset_reseau.setText(QCoreApplication.translate("DialogParamsReseau", u"R\u00e9initialiser", None))
+        self.btn_apply_reseau.setText(QCoreApplication.translate("DialogParamsReseau", u"Appliquer", None))
+    # retranslateUi
+

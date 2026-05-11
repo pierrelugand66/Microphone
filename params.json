@@ -1,0 +1,18 @@
+{
+  "sps": "1000 Hz",
+  "fft": "256",
+  "udp": "5 Hz",
+  "resolution": "12 bits",
+  "mode": "Continu",
+  "timeout": "30 s",
+  "val_max": 5.0,
+  "val_min": 0.0,
+  "rms_max": 50.0,
+  "db_max": 5.0,
+  "capteur_id": "",
+  "capteur_nom": "",
+  "carte": "",
+  "capteurs_connus": [
+    "01"
+  ]
+}

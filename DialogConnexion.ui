@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogConnexion</class>
+ <widget class="QDialog" name="DialogConnexion">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>500</width>
+    <height>320</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Connexion — IHM Wi-Fi</string>
+  </property>
+
+  <!-- Titre -->
+  <widget class="QLabel" name="label_titre">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>480</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Mode de connexion</string>
+   </property>
+  </widget>
+
+  <!-- Frame mode -->
+  <widget class="QFrame" name="frame_mode">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>40</y>
+     <width>480</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+
+   <widget class="QLabel" name="label_mode_title">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>200</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Sélectionner le mode</string>
+    </property>
+   </widget>
+
+   <widget class="QRadioButton" name="radio_local">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>25</y>
+      <width>460</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mode Local  —  réseau Wi-Fi partagé (LAN)</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+
+   <widget class="QRadioButton" name="radio_distant">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>62</y>
+      <width>460</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mode Distant  —  port forwarding (réseau externe)</string>
+    </property>
+   </widget>
+  </widget>
+
+  <!-- Frame IP distante -->
+  <widget class="QFrame" name="frame_distant">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>155</y>
+     <width>480</width>
+     <height>101</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+
+   <widget class="QLabel" name="label_ip_title">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>460</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Adresse IP publique ou nom de domaine de la box :</string>
+    </property>
+   </widget>
+
+   <widget class="QLineEdit" name="input_ip">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>25</y>
+      <width>460</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="placeholderText">
+     <string>ex : 82.45.123.67  ou  mondomaine.fr</string>
+    </property>
+   </widget>
+
+   <widget class="QLabel" name="label_ip_info">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>72</y>
+      <width>460</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Le routeur doit rediriger les ports UDP 5001 et 5002 vers la carte.</string>
+    </property>
+   </widget>
+  </widget>
+
+  <!-- Boutons -->
+  <widget class="QPushButton" name="btn_quitter">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>275</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Quitter</string>
+   </property>
+  </widget>
+
+  <widget class="QPushButton" name="btn_connecter">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>275</y>
+     <width>111</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Se connecter</string>
+   </property>
+  </widget>
+
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

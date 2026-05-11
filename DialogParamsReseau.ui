@@ -1,0 +1,734 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogParamsReseau</class>
+ <widget class="QDialog" name="DialogParamsReseau">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>520</width>
+    <height>617</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Paramètres réseau</string>
+  </property>
+  <widget class="QFrame" name="frame_udp">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>501</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_udp_title">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Configuration UDP</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_port_ecoute_local">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Port d'écoute local</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinbox_port_local">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>20</y>
+      <width>321</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>65535</number>
+   </widget>
+   <widget class="QLabel" name="label_port_destination">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Port destination</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="spinbox_port_dest">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>70</y>
+      <width>321</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_adresse_broadcast">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Adresse broadcast</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>120</y>
+      <width>321</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>255.255.255.255</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_timeouts">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>200</y>
+     <width>501</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_timeouts_title">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Timeouts et retries</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_timeout_ack">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Timeout ACK</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="combo_timeout_ack">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>20</y>
+      <width>361</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_nombre_retries">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Nombre de retries</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_timeout_perdue">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Timeout liaison perdue</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="combo_retries">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>70</y>
+      <width>361</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="combo_timeout_liaison">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>120</y>
+      <width>361</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QFrame" name="frame_seuils_reseau">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>390</y>
+     <width>501</width>
+     <height>171</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::StyledPanel</enum>
+   </property>
+   <property name="frameShadow">
+    <enum>QFrame::Raised</enum>
+   </property>
+   <widget class="QLabel" name="label_seuils_reseau_title">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Seuils d'alerte réseau</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_RSSI_minimum">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>RSSI minimum (dBm)</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="spinbox_rssi_min">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>20</y>
+      <width>361</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="spinbox_per_max">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>70</y>
+      <width>361</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="spinbox_latence_max">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>120</y>
+      <width>361</width>
+      <height>41</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_PERmaximum">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>101</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PER maximum (%)</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_latence_maximum">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>111</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Latence maximum (ms)</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="btn_cancel">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>570</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Annuler</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_reset_reseau">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>570</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Réinitialiser</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_apply_reseau">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>570</y>
+     <width>101</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Appliquer</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
+    <class>DialogParamsReseau</class>
+    <widget class="QDialog" name="DialogParamsReseau">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>520</width>
+                <height>617</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>Paramètres réseau</string>
+        </property>
+        <widget class="QFrame" name="frame_udp">
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>10</y>
+                    <width>501</width>
+                    <height>171</height>
+                </rect>
+            </property>
+            <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+            </property>
+            <widget class="QLabel" name="label_udp_title">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>0</y>
+                        <width>160</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Configuration UDP</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_port_ecoute_local">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>30</y>
+                        <width>101</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Port d'écoute local</string>
+                </property>
+            </widget>
+            <widget class="QSpinBox" name="spinbox_port_local">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>20</y>
+                        <width>321</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="minimum">
+                    <number>1</number>
+                </property>
+                <property name="maximum">
+                    <number>65535</number>
+                </property>
+                <property name="value">
+                    <number>5001</number>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_port_destination">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>80</y>
+                        <width>101</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Port destination</string>
+                </property>
+            </widget>
+            <widget class="QSpinBox" name="spinbox_port_dest">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>70</y>
+                        <width>321</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="minimum">
+                    <number>1</number>
+                </property>
+                <property name="maximum">
+                    <number>65535</number>
+                </property>
+                <property name="value">
+                    <number>5002</number>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_adresse_broadcast">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>130</y>
+                        <width>101</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Adresse broadcast</string>
+                </property>
+            </widget>
+            <widget class="QLineEdit" name="lineEdit">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>120</y>
+                        <width>321</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>255.255.255.255</string>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QFrame" name="frame_timeouts">
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>200</y>
+                    <width>501</width>
+                    <height>171</height>
+                </rect>
+            </property>
+            <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+            </property>
+            <widget class="QLabel" name="label_timeouts_title">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>0</y>
+                        <width>160</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Timeouts et retries</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_timeout_ack">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>30</y>
+                        <width>101</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Timeout ACK</string>
+                </property>
+            </widget>
+            <widget class="QComboBox" name="combo_timeout_ack">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>20</y>
+                        <width>330</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_nombre_retries">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>80</y>
+                        <width>101</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Nombre de retries</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_timeout_perdue">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>130</y>
+                        <width>160</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Timeout liaison perdue</string>
+                </property>
+            </widget>
+            <widget class="QComboBox" name="combo_retries">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>70</y>
+                        <width>330</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QComboBox" name="combo_timeout_liaison">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>120</y>
+                        <width>330</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QFrame" name="frame_seuils_reseau">
+            <property name="geometry">
+                <rect>
+                    <x>10</x>
+                    <y>390</y>
+                    <width>501</width>
+                    <height>171</height>
+                </rect>
+            </property>
+            <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+            </property>
+            <widget class="QLabel" name="label_seuils_reseau_title">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>0</y>
+                        <width>160</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Seuils d'alerte réseau</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_RSSI_minimum">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>30</y>
+                        <width>130</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>RSSI minimum (dBm)</string>
+                </property>
+            </widget>
+            <widget class="QDoubleSpinBox" name="spinbox_rssi_min">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>20</y>
+                        <width>330</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+                <property name="minimum">
+                    <number>-100</number>
+                </property>
+                <property name="maximum">
+                    <number>0</number>
+                </property>
+            </widget>
+            <widget class="QDoubleSpinBox" name="spinbox_per_max">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>70</y>
+                        <width>330</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QDoubleSpinBox" name="spinbox_latence_max">
+                <property name="geometry">
+                    <rect>
+                        <x>170</x>
+                        <y>120</y>
+                        <width>330</width>
+                        <height>41</height>
+                    </rect>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_PERmaximum">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>80</y>
+                        <width>130</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>PER maximum (%)</string>
+                </property>
+            </widget>
+            <widget class="QLabel" name="label_latence_maximum">
+                <property name="geometry">
+                    <rect>
+                        <x>10</x>
+                        <y>130</y>
+                        <width>160</width>
+                        <height>16</height>
+                    </rect>
+                </property>
+                <property name="text">
+                    <string>Latence maximum (ms)</string>
+                </property>
+            </widget>
+        </widget>
+        <widget class="QPushButton" name="btn_cancel">
+            <property name="geometry">
+                <rect>
+                    <x>20</x>
+                    <y>570</y>
+                    <width>101</width>
+                    <height>31</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Annuler</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" name="btn_reset_reseau">
+            <property name="geometry">
+                <rect>
+                    <x>210</x>
+                    <y>570</y>
+                    <width>101</width>
+                    <height>31</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Réinitialiser</string>
+            </property>
+        </widget>
+        <widget class="QPushButton" name="btn_apply_reseau">
+            <property name="geometry">
+                <rect>
+                    <x>390</x>
+                    <y>570</y>
+                    <width>101</width>
+                    <height>31</height>
+                </rect>
+            </property>
+            <property name="text">
+                <string>Appliquer</string>
+            </property>
+        </widget>
+    </widget>
+    <resources />
+    <connections />
+</ui>
