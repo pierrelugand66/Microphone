@@ -153,6 +153,16 @@ class DataManager:
             self.connexion.commit()
         except Exception as e:
             print(f"Erreur acquittement alarme : {e}")
+        
+    def purger_alarmes_acquittees(self):
+        """Supprime de la base toutes les alarmes déjà acquittées."""
+        try:
+            curseur = self.connexion.cursor()
+            curseur.execute("DELETE FROM alarmes WHERE statut = 'acquittee'")
+            self.connexion.commit()
+            print(f"Alarmes acquittées purgées : {curseur.rowcount} ligne(s) supprimée(s)")
+        except Exception as e:
+            print(f"Erreur purge alarmes : {e}")
 
     def acquitter_toutes(self):
         """Acquitte toutes les alarmes actives"""

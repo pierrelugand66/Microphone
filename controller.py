@@ -56,6 +56,7 @@ class MainController(QMainWindow):
 
         # Initialisation de la base de données
         self.db = DataManager()
+        self.db.purger_alarmes_acquittees()   
 
         # ── MODIFICATION 2 : création UDPWorker avec mode et ip_distante ──
         self.udp = UDPWorker(
