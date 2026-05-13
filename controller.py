@@ -40,7 +40,6 @@ PARAMS_DEFAUT = {
 }
 
 class MainController(QMainWindow):
-    # ── MODIFICATION 1 : signature __init__ avec mode et ip_distante ──
     def __init__(self, mode="local", ip_distante=""):
         super().__init__()
         self.ui = Ui_MainWindow()
@@ -58,7 +57,7 @@ class MainController(QMainWindow):
         self.db = DataManager()
         self.db.purger_alarmes_acquittees()   
 
-        # ── MODIFICATION 2 : création UDPWorker avec mode et ip_distante ──
+        # Initialisation du worker UDP
         self.udp = UDPWorker(
             port_local=5001,
             port_dest=5002,
@@ -73,9 +72,9 @@ class MainController(QMainWindow):
         except RuntimeError as e:
             QMessageBox.critical(self, "Erreur UDP", str(e))
 
-        # ── MODIFICATION 3 : titre de fenêtre selon le mode ──
+        # Titre de fenêtre selon le mode 
         if mode == "distant":
-            self.setWindowTitle(f"IHM Wi-Fi — Mode DISTANT ({ip_distante})")
+            self.setWindowTitle(f"IHM Wi-Fi — Mode Distant ({ip_distante})")
         else:
             self.setWindowTitle("IHM Wi-Fi — Mode Local")
 
@@ -114,7 +113,7 @@ class MainController(QMainWindow):
         self._paquets_envoyes = 0
         self._timer_debit = QTimer(self)
         self._timer_debit.timeout.connect(self._maj_metriques)
-        self._timer_debit.start(1000)  # toutes les secondes
+        self._timer_debit.start(1000)  
 
         # Initialisation de l'onglet Historique
         self._init_historique()
@@ -123,12 +122,14 @@ class MainController(QMainWindow):
 
         # Initialisation de la table alarmes + chargement initial
         self._init_table_alarmes()
+
         # Peupler les filtres alarmes
         self.ui.combo_filtre_severite.addItems(["Toutes", "critique", "haute", "moyenne", "basse"])
         self.ui.combo_filtre_capteur.addItem("Tous les capteurs")
         self.ui.combo_filtre_severite.currentIndexChanged.connect(self.filtrer_alarmes)
         self.ui.combo_filtre_capteur.currentIndexChanged.connect(self.filtrer_alarmes)
         self.charger_alarmes()
+        
     # ─────────────────────────────────────────────────────────
     # INITIALISATION
     # ─────────────────────────────────────────────────────────
