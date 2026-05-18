@@ -10,6 +10,7 @@ from PySide6.QtGui import QColor
 from ihm_wifi import Ui_MainWindow
 from dialog_params_reseau import Ui_DialogParamsReseau
 from udp_worker import UDPWorker
+from remote_worker import RemoteWorker
 from trame_parser import parser_trame, parser_ack, parser_trame_binaire
 from graph_manager import GraphManager
 from data_manager import DataManager
@@ -58,13 +59,17 @@ class MainController(QMainWindow):
         self.db.purger_alarmes_acquittees()   
 
         # Initialisation du worker UDP
-        self.udp = UDPWorker(
-            port_local=5001,
-            port_dest=5002,
-            broadcast="192.168.10.255",
-            mode=mode,
-            ip_distante=ip_distante,
-        )
+        if mode == "distant":
+            self.udp = RemoteWorker(ip_serveur=ip_distante)
+        else:
+            self.udp = UDPWorker(
+                port_local=5001,
+                port_dest=5002,
+                broadcast="192.168.10.255",
+                mode=mode,
+                ip_distante=ip_distante,
+            )
+            
         self.udp.trame_recue.connect(self.traiter_trame)
         self.udp.ack_recu.connect(self.traiter_ack)
         try:
