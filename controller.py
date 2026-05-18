@@ -69,7 +69,6 @@ class MainController(QMainWindow):
                 mode=mode,
                 ip_distante=ip_distante,
             )
-            
         self.udp.trame_recue.connect(self.traiter_trame)
         self.udp.ack_recu.connect(self.traiter_ack)
         try:
@@ -1031,18 +1030,23 @@ class MainController(QMainWindow):
         with open("params_reseau.json", "w", encoding="utf-8") as f:
             json.dump(params_reseau, f, ensure_ascii=False, indent=2)
 
+        mode_actuel = self.udp.mode
+        ip_actuelle = self.udp.ip_distante
         self.udp.arreter()
-        # ── MODIFICATION 4 : conserver mode et ip_distante lors du rechargement ──
-        self.udp = UDPWorker(
-            port_local  = nouveau_port_local,
-            port_dest   = nouveau_port_dest,
-            broadcast   = broadcast,
-            mode        = self.udp.mode,
-            ip_distante = self.udp.ip_distante,
-        )
+        if mode_actuel == "distant":
+            self.udp = RemoteWorker(ip_serveur=ip_actuelle)
+        else:
+            self.udp = UDPWorker(
+                port_local  = nouveau_port_local,
+                port_dest   = nouveau_port_dest,
+                broadcast   = broadcast,
+                mode        = mode_actuel,
+                ip_distante = ip_actuelle,
+            )
         self.udp.trame_recue.connect(self.traiter_trame)
         self.udp.ack_recu.connect(self.traiter_ack)
         self.udp.demarrer()
+
 
         dialog.accept()
         QMessageBox.information(self, "Réseau",
