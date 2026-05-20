@@ -358,6 +358,11 @@ class MainController(QMainWindow):
             self._traiter_mic(data, ip)
             return
 
+        # ── Gérer CARTE_DISPO en mode distant ──
+        if isinstance(trame, str) and trame.startswith("CARTE_DISPO"):
+            self.udp.envoyer("Envoi requete adresse IP", self.ip_carte_selectionnee or "")
+            return
+
         #Trame texte 
         # Afficher dans le terminal seulement si ce n'est PAS une trame MIC
         if "TYPE:MIC" not in trame:

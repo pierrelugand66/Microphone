@@ -1,4 +1,4 @@
 {
-  "mode": "local",
-  "ip_distante": ""
+  "mode": "distant",
+  "ip_distante": "192.168.10.102"
 }
