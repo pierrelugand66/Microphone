@@ -48,6 +48,9 @@ class MainController(QMainWindow):
 
         # Onglet Production grisé au démarrage
         self.ui.tabWidget.setTabEnabled(1, False)
+        self.ui.btn_unlock.setVisible(False)
+        self.ui.input_password.setVisible(False)
+        self.ui.label_lock_title.setVisible(False)
 
         # Désactiver le scan en mode distant
         if mode == "distant":
@@ -551,6 +554,8 @@ class MainController(QMainWindow):
                 print(f"Carte détectée : {entree}")
 
     def _ajouter_carte(self, ip):
+        if hasattr(self.udp, 'ip_serveur') and ip == self.udp.ip_serveur:
+            return
         if not hasattr(self, 'cartes_connues'):
             self.cartes_connues = set()
         if ip not in self.cartes_connues:
@@ -893,10 +898,21 @@ class MainController(QMainWindow):
             return None
 
     def demarrer_acquisition(self):
-        """Envoie la commande START à la carte."""
+        """Envoie les commandes Wake et START à la carte."""
         ip_carte = self._get_ip_carte_selectionnee()
         if ip_carte is None:
             return
+        # WAKE 
+        seq = self._next_seq()
+        trame = f"CMD:WAKE;SEQ:{seq}"
+        trame_complete = f"{trame};CHK:{self._checksum(trame)}"
+        self.udp.envoyer(trame_complete, ip_carte)
+        self.ui.text_terminal_output.append(f"> {trame_complete}")
+
+        import time 
+        time.sleep(0.5)
+
+        #START                                 
         seq = self._next_seq()
         trame = f"CMD:START;SEQ:{seq}"
         trame_complete = f"{trame};CHK:{self._checksum(trame)}"
@@ -907,7 +923,7 @@ class MainController(QMainWindow):
             capteur_id=ip_carte,
             statut_ack="en_attente"
         )
-        print(f"Commande START envoyée → {ip_carte}")
+        print(f"Commande WAKE et START envoyées → {ip_carte}")
 
     def arreter_acquisition(self):
         """Envoie la commande STOP à la carte."""

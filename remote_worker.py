@@ -68,15 +68,23 @@ class RemoteWorker(QObject):
         while self._actif:
             try:
                 data = socket.recv()
+
+                # Extraire l'IP source préfixée par le serveur
+                if b"|" in data[:50]:
+                    ip_source, data = data.split(b"|", 1)
+                    ip_source = ip_source.decode("utf-8")
+                else:
+                    ip_source = self.ip_serveur
+
                 # Paquet binaire MIC ?
                 if len(data) > 10 and data[0] == 0x4D:
-                    self.trame_recue.emit(data, self.ip_serveur)
+                    self.trame_recue.emit(data, ip_source)
                 else:
                     trame = data.decode("utf-8").strip()
                     if trame.startswith("ACK"):
-                        self.ack_recu.emit(trame, self.ip_serveur)
+                        self.ack_recu.emit(trame, ip_source)
                     else:
-                        self.trame_recue.emit(trame, self.ip_serveur)
+                        self.trame_recue.emit(trame, ip_source)
             except zmq.Again:
                 # Timeout — on continue la boucle
                 continue
