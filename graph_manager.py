@@ -17,7 +17,7 @@ class GraphManager:
         self.plot_signal = pg.PlotWidget()
         self.plot_signal.setTitle("Signal temporel")
         self.plot_signal.setLabel('left', 'Valeur')
-        self.plot_signal.setLabel('bottom', 'Échantillons')
+        self.plot_signal.setLabel('bottom', 'Temps', units='ms')
         self.plot_signal.showGrid(x=True, y=True, alpha=0.3)
         self.plot_signal.setYRange(-32768, 32768) 
         self.courbe_signal = self.plot_signal.plot(
@@ -40,8 +40,10 @@ class GraphManager:
         # --- Graphe FFT ---
         self.plot_fft = pg.PlotWidget()
         self.plot_fft.setTitle("Spectre FFT")
+        self.plot_signal.setLabel('left', 'Amplitude', units='LSB')
         self.plot_fft.setLabel('left', 'Amplitude')
-        self.plot_fft.setLabel('bottom', 'Fréquence (Hz)')
+        self.plot_fft.setLogMode(False, False)
+        self.plot_fft.setYRange(0, 1)
         self.plot_fft.showGrid(x=True, y=True, alpha=0.3)
         self.courbe_fft = self.plot_fft.plot(
             pen=pg.mkPen(color='#378ADD', width=1.5),
@@ -77,14 +79,16 @@ class GraphManager:
     
     def rafraichir(self):
         if self._dirty:
-            self.courbe_signal.setData(list(self.buffer_signal))
+            n = len(self.buffer_signal)
+            t_ms = np.linspace(0, n / 16000 * 1000, n)
+            self.courbe_signal.setData(t_ms, list(self.buffer_signal))
             self._dirty = False
 
     
     def maj_fft(self, data, fmax=5000):
-        """Met à jour le graphe FFT avec un buffer de points"""
-        freqs = np.linspace(0, fmax, len(data))
-        self.courbe_fft.setData(freqs, data)
+        arr = np.array(data, dtype=np.float32)
+        freqs = np.linspace(0, fmax, len(arr))
+        self.courbe_fft.setData(freqs, arr)
 
     def set_seuils(self, seuil_min, seuil_max):
         """Met à jour les lignes de seuil"""
