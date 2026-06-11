@@ -3,6 +3,7 @@ import json
 import os
 from datetime import datetime, timedelta
 from PySide6.QtWidgets import QFileDialog, QMainWindow, QDialog, QTableWidgetItem, QMessageBox, QInputDialog, QLineEdit
+from PySide6.QtWidgets import QHeaderView
 
 import numpy as np
 from PySide6.QtCore import Qt
@@ -15,6 +16,7 @@ from trame_parser import parser_trame, parser_ack, parser_trame_binaire
 from graph_manager import GraphManager
 from data_manager import DataManager
 from PySide6.QtCore import QTimer
+
 
 # Couleurs par sévérité (fond de ligne)
 _COULEUR_SEVERITE = {
@@ -61,6 +63,10 @@ class MainController(QMainWindow):
         self.db = DataManager()
         self.db.purger_alarmes_acquittees()   
 
+        # Initialisation flag acquisition
+        self._mic_enregistre = False
+        self._capteur_id_courant = None
+
         # Initialisation du worker UDP
         if mode == "distant":
             self.udp = RemoteWorker(ip_serveur=ip_distante)
@@ -91,19 +97,27 @@ class MainController(QMainWindow):
         # Carte sélectionnée
         self.ip_carte_selectionnee = None
 
-        # Initialisation des graphes
         self.graph_prod = GraphManager(
             self.ui.widget_prod_signal,
-            self.ui.widget_prod_fft
+            self.ui.widget_prod_fft,
+            max_points=3200
         )
         self.graph_histo = GraphManager(
             self.ui.widget_courbe,
-            self.ui.widget_fft
+            self.ui.widget_fft,
+            max_points=3200
         )
         self._timer_graph = QTimer(self)
         self._timer_graph.timeout.connect(self._rafraichir_graphes)
         self._timer_graph.start(100)  # rafraîchissement 10Hz
 
+        #Initialisation du tableau Capteurs
+        header = self.ui.table_capteurs.horizontalHeader()
+        header.setSectionResizeMode(0, QHeaderView.ResizeMode.ResizeToContents)  
+        header.setSectionResizeMode(1, QHeaderView.ResizeMode.ResizeToContents)  
+        header.setSectionResizeMode(2, QHeaderView.ResizeMode.Stretch)           
+        header.setSectionResizeMode(3, QHeaderView.ResizeMode.Stretch)  
+        header.setSectionResizeMode(4, QHeaderView.ResizeMode.Stretch) 
 
         #compteur de trames MIC 
         self._compteur_mic = 0
@@ -129,6 +143,11 @@ class MainController(QMainWindow):
 
         # Initialisation de la table alarmes + chargement initial
         self._init_table_alarmes()
+
+        #Initialisation du recap parametres 
+        self.ui.input_capteur_id.setReadOnly(True)
+        self.ui.input_capteur_nom.setReadOnly(True)
+        self.ui.combo_capteur_carte.setReadOnly(True)
 
         # Peupler les filtres alarmes
         self.ui.combo_filtre_severite.addItems(["Toutes", "critique", "haute", "moyenne", "basse"])
@@ -398,8 +417,12 @@ class MainController(QMainWindow):
             self.ui.label_prod_min.setText(f"{min(buffer):.3f} {unit}")
             self.ui.label_prod_max.setText(f"{max(buffer):.3f} {unit}")
             rssi = data.get("RSSI")
-            if rssi is not None:
+            if rssi is not None and rssi != 0:
+                self.ui.label_prod_rssi.setText(f"RSSI : {rssi} dBm")
                 self.ui.label_rssi_val.setText(f"{rssi} dBm")
+            else:
+                self.ui.label_prod_rssi.setText("RSSI : N/A")
+                self.ui.label_rssi_val.setText("N/A")
 
         elif type_trame == "FFT":
             data_fft = data.get("DATA", [])
@@ -446,6 +469,13 @@ class MainController(QMainWindow):
             self._ajouter_capteur_combo(capteur_id)
 
     def _traiter_mic(self, data, ip):
+        if not self._mic_enregistre:
+            self._capteur_id_courant = data.get("ID")
+            self._ajouter_capteur_table(data.get("ID"), "MIC", ip, "Connecté", "Acquisition audio")
+            self._mic_enregistre = True
+            self.ui.input_capteur_id.setText(self._capteur_id_courant)
+            self.ui.combo_capteur_carte.setText(self.ip_carte_selectionnee or ip)
+            self.ui.input_capteur_nom.setText("Microphone SmartAcc")
         data_mic = data.get("DATA", [])
         if not data_mic:
             return
@@ -504,13 +534,13 @@ class MainController(QMainWindow):
             self.ui.label_rssi_val.setText(f"{rssi} dBm")
 
         self.db.sauvegarder_mesure(
-            capteur_id="01",
+            capteur_id=self._capteur_id_courant,
             type_trame="MIC",
             valeur=float(rms),
             unite="raw",
             timestamp=int(datetime.now().timestamp())
         )
-        self._ajouter_capteur_combo("01")
+        self._ajouter_capteur_combo(self._capteur_id_courant)
 
 
     def traiter_ack(self, ack, ip):
@@ -553,6 +583,10 @@ class MainController(QMainWindow):
                 self._ajouter_capteur_combo(carte_id)
                 print(f"Carte détectée : {entree}")
 
+        elif "BYE" in ack and statut == "OK":
+            self._deconnecter_capteur(self._capteur_id_courant)
+            self._mic_enregistre = False
+
     def _ajouter_carte(self, ip):
         if hasattr(self.udp, 'ip_serveur') and ip == self.udp.ip_serveur:
             return
@@ -567,7 +601,7 @@ class MainController(QMainWindow):
             self.setWindowTitle(f"IHM Wi-Fi — Microcontrôleur — {ip}")
             print(f"Nouvelle carte détectée : {ip}")
 
-    def _ajouter_capteur_table(self, capteur_id, type_capteur, ip_carte, etat="Connecté"):
+    def _ajouter_capteur_table(self, capteur_id, type_capteur, ip_carte, etat="Connecté", action=""):
         """Ajoute ou met à jour un capteur dans table_capteurs."""
         t = self.ui.table_capteurs
         # Vérifier si déjà présent
@@ -582,8 +616,15 @@ class MainController(QMainWindow):
         t.setItem(row, 1, QTableWidgetItem(str(type_capteur)))
         t.setItem(row, 2, QTableWidgetItem(str(ip_carte)))
         t.setItem(row, 3, QTableWidgetItem(etat))
-        t.setItem(row, 4, QTableWidgetItem(""))
+        t.setItem(row, 4, QTableWidgetItem(action))
         t.resizeColumnsToContents()
+
+    def _deconnecter_capteur(self, capteur_id):
+        t = self.ui.table_capteurs
+        for row in range(t.rowCount()):
+            if t.item(row, 0) and t.item(row, 0).text() == str(capteur_id):
+                t.item(row, 3).setText("Déconnecté")
+                return
 
     def afficher_ip_carte(self, item):
         self.ip_carte_selectionnee = item.text().replace("Carte — IP: ", "")
@@ -899,6 +940,7 @@ class MainController(QMainWindow):
 
     def demarrer_acquisition(self):
         """Envoie les commandes Wake et START à la carte."""
+        self._mic_enregistre = False
         ip_carte = self._get_ip_carte_selectionnee()
         if ip_carte is None:
             return
@@ -940,6 +982,7 @@ class MainController(QMainWindow):
             capteur_id=ip_carte,
             statut_ack="en_attente"
         )
+        self._deconnecter_capteur(self._capteur_id_courant)
         print(f"Commande STOP envoyée → {ip_carte}")
 
     def reveiller_capteur(self):
