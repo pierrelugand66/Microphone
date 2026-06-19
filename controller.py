@@ -104,7 +104,6 @@ class MainController(QMainWindow):
         )
         self.graph_histo = GraphManager(
             self.ui.widget_courbe,
-            self.ui.widget_fft,
             max_points=3200
         )
         self._timer_graph = QTimer(self)
@@ -294,10 +293,10 @@ class MainController(QMainWindow):
 
         if index in deltas:
             debut = maintenant - deltas[index]
-            return int(debut.timestamp()), int(maintenant.timestamp())
+            return int(debut.timestamp() * 1000), int(maintenant.timestamp() * 1000)
 
-        debut_ts = int(self.ui.datetime_histo_debut.dateTime().toSecsSinceEpoch())
-        fin_ts = int(self.ui.datetime_histo_fin.dateTime().toSecsSinceEpoch())
+        debut_ts = int(self.ui.datetime_histo_debut.dateTime().toSecsSinceEpoch() * 1000)
+        fin_ts = int(self.ui.datetime_histo_fin.dateTime().toSecsSinceEpoch() * 1000)
         return debut_ts, fin_ts
 
     def _ajouter_capteur_combo(self, capteur_id):
@@ -485,7 +484,6 @@ class MainController(QMainWindow):
         self.ui.frame_wake_banner.setVisible(False)
 
         self.graph_prod.maj_signal_buffer(data_mic)
-        self.graph_histo.maj_signal_buffer(data_mic)
 
         arr = np.array(data_mic)
         rms = float(np.sqrt(np.mean(arr**2)))
@@ -525,7 +523,6 @@ class MainController(QMainWindow):
         if np.max(fft_data) > 0:
             fft_data = fft_data / np.max(fft_data)
         self.graph_prod.maj_fft(fft_data.tolist(), 5000)
-        self.graph_histo.maj_fft(fft_data.tolist(), 5000)
 
         # RSSI
         rssi = data.get("RSSI")
@@ -538,7 +535,7 @@ class MainController(QMainWindow):
             type_trame="MIC",
             valeur=float(rms),
             unite="raw",
-            timestamp=int(datetime.now().timestamp())
+            timestamp=int(datetime.now().timestamp() * 1000)
         )
         self._ajouter_capteur_combo(self._capteur_id_courant)
 
@@ -826,11 +823,20 @@ class MainController(QMainWindow):
             self._reinitialiser_stats()
 
         self.graph_histo.reset()
-        for _, val, _ in mesures:
-            if val is not None:
-                self.graph_histo.maj_signal(val)
-
-        print(f"Historique chargé : {len(mesures)} mesures")
+        if valeurs:
+            timestamps = [
+                datetime.strptime(dh, '%Y-%m-%d %H:%M:%S.%f').timestamp()
+                if '.' in dh else
+                datetime.strptime(dh, '%Y-%m-%d %H:%M:%S').timestamp()
+                for dh, v, _ in mesures if v is not None
+            ]
+            t0 = timestamps[0]
+            t_s = [t - t0 for t in timestamps]
+            self.graph_histo.plot_signal.setTitle("Niveau RMS au fil du temps")
+            self.graph_histo.plot_signal.setLabel('left', 'RMS (raw)')
+            self.graph_histo.plot_signal.setLabel('bottom', 'Temps', units='s')
+            self.graph_histo.courbe_signal.setData(t_s, valeurs, pen=None, symbol='o', symbolSize=3, symbolBrush='#378ADD')
+            print(f"Historique chargé : {len(mesures)} mesures")
 
     def _reinitialiser_stats(self):
         """Remet les labels de statistiques à --."""
@@ -863,10 +869,20 @@ class MainController(QMainWindow):
             return
 
         donnees = []
+        t0 = None
         for row in range(nb_lignes):
+            dh = self.ui.table_logs.item(row, 0).text()
+            try:
+                ts = datetime.strptime(dh, '%Y-%m-%d %H:%M:%S.%f').timestamp()
+            except ValueError:
+                ts = datetime.strptime(dh, '%Y-%m-%d %H:%M:%S').timestamp()
+            if t0 is None:
+                t0 = ts
+            temps_s = ts - t0
             donnees.append({
-                "date_heure": self.ui.table_logs.item(row, 0).text(),
-                "valeur": self.ui.table_logs.item(row, 1).text(),
+                "date_heure": dh,
+                "temps_s": f"{temps_s:.3f}".replace('.', ','),
+                "valeur": self.ui.table_logs.item(row, 1).text().replace('.', ','),
                 "unite": self.ui.table_logs.item(row, 2).text(),
             })
 
@@ -904,7 +920,7 @@ class MainController(QMainWindow):
 
     def _exporter_csv(self, chemin, donnees):
         with open(chemin, "w", newline="", encoding="utf-8") as f:
-            writer = csv.DictWriter(f, fieldnames=["date_heure", "valeur", "unite"])
+            writer = csv.DictWriter(f, fieldnames=["date_heure", "temps_s", "valeur", "unite"])
             writer.writeheader()
             writer.writerows(donnees)
 

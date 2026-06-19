@@ -1450,30 +1450,7 @@
                                             <x>10</x>
                                             <y>310</y>
                                             <width>871</width>
-                                            <height>200</height>
-                                        </rect>
-                                    </property>
-                                </widget>
-                                <widget class="QLabel" name="label_histo_fft_title">
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>20</x>
-                                            <y>530</y>
-                                            <width>71</width>
-                                            <height>16</height>
-                                        </rect>
-                                    </property>
-                                    <property name="text">
-                                        <string>Spectre FFT</string>
-                                    </property>
-                                </widget>
-                                <widget class="QWidget" name="widget_fft" native="true">
-                                    <property name="geometry">
-                                        <rect>
-                                            <x>10</x>
-                                            <y>560</y>
-                                            <width>871</width>
-                                            <height>160</height>
+                                            <height>400</height>
                                         </rect>
                                     </property>
                                 </widget>

@@ -101,31 +101,31 @@ class Ui_MainWindow:
 
         self.label_latence_val = QLabel(self.frame_network_summary)
         self.label_latence_val.setObjectName("label_latence_val")
-        self.label_latence_val.setGeometry(QRect(20, 80, 49, 16))
+        self.label_latence_val.setGeometry(QRect(20, 80, 120, 16))
 
         self.label_rssi_title = QLabel(self.frame_network_summary)
         self.label_rssi_title.setObjectName("label_rssi_title")
-        self.label_rssi_title.setGeometry(QRect(380, 60, 49, 16))
+        self.label_rssi_title.setGeometry(QRect(380, 60, 80, 16))
 
         self.label_rssi_val = QLabel(self.frame_network_summary)
         self.label_rssi_val.setObjectName("label_rssi_val")
-        self.label_rssi_val.setGeometry(QRect(380, 80, 49, 16))
+        self.label_rssi_val.setGeometry(QRect(380, 80, 120, 16))
 
         self.label_per_title = QLabel(self.frame_network_summary)
         self.label_per_title.setObjectName("label_per_title")
-        self.label_per_title.setGeometry(QRect(10, 120, 49, 16))
+        self.label_per_title.setGeometry(QRect(10, 120, 80, 16))
 
         self.label_per_val = QLabel(self.frame_network_summary)
         self.label_per_val.setObjectName("label_per_val")
-        self.label_per_val.setGeometry(QRect(10, 140, 49, 16))
+        self.label_per_val.setGeometry(QRect(10, 140, 120, 16))
 
         self.label_debit_title = QLabel(self.frame_network_summary)
         self.label_debit_title.setObjectName("label_debit_title")
-        self.label_debit_title.setGeometry(QRect(370, 120, 49, 16))
+        self.label_debit_title.setGeometry(QRect(370, 120, 80, 16))
 
         self.label_debit_val = QLabel(self.frame_network_summary)
         self.label_debit_val.setObjectName("label_debit_val")
-        self.label_debit_val.setGeometry(QRect(370, 140, 49, 16))
+        self.label_debit_val.setGeometry(QRect(370, 140, 120, 16))
 
         self.label_canal_title = QLabel(self.frame_network_summary)
         self.label_canal_title.setObjectName("label_canal_title")
@@ -133,15 +133,15 @@ class Ui_MainWindow:
 
         self.label_canal_val = QLabel(self.frame_network_summary)
         self.label_canal_val.setObjectName("label_canal_val")
-        self.label_canal_val.setGeometry(QRect(10, 200, 49, 16))
+        self.label_canal_val.setGeometry(QRect(10, 200, 80, 16))
 
         self.label_paquets_title = QLabel(self.frame_network_summary)
         self.label_paquets_title.setObjectName("label_paquets_title")
-        self.label_paquets_title.setGeometry(QRect(370, 180, 131, 16))
+        self.label_paquets_title.setGeometry(QRect(370, 180, 160, 16))
 
         self.label_paquets_val = QLabel(self.frame_network_summary)
         self.label_paquets_val.setObjectName("label_paquets_val")
-        self.label_paquets_val.setGeometry(QRect(370, 200, 49, 16))
+        self.label_paquets_val.setGeometry(QRect(370, 200, 120, 16))
 
         self.frame_capteurs = QFrame(self.tab_3)
         self.frame_capteurs.setObjectName("frame_capteurs")
@@ -320,15 +320,15 @@ class Ui_MainWindow:
 
         self.label_ack_status = QLabel(self.frame_terminal)
         self.label_ack_status.setObjectName("label_ack_status")
-        self.label_ack_status.setGeometry(QRect(80, 700, 101, 16))
+        self.label_ack_status.setGeometry(QRect(80, 700, 150, 16))
 
         self.label_ack_latence = QLabel(self.frame_terminal)
         self.label_ack_latence.setObjectName("label_ack_latence")
-        self.label_ack_latence.setGeometry(QRect(300, 700, 101, 16))
+        self.label_ack_latence.setGeometry(QRect(300, 700, 150, 16))
 
         self.label_ack_seq = QLabel(self.frame_terminal)
         self.label_ack_seq.setObjectName("label_ack_seq")
-        self.label_ack_seq.setGeometry(QRect(520, 700, 61, 16))
+        self.label_ack_seq.setGeometry(QRect(520, 700, 100, 16))
 
         self.frame_commands = QFrame(self.tab_5)
         self.frame_commands.setObjectName("frame_commands")
@@ -495,15 +495,7 @@ class Ui_MainWindow:
 
         self.widget_courbe = QWidget(self.frame_historique_graphes)
         self.widget_courbe.setObjectName("widget_courbe")
-        self.widget_courbe.setGeometry(QRect(10, 310, 871, 200))
-
-        self.label_histo_fft_title = QLabel(self.frame_historique_graphes)
-        self.label_histo_fft_title.setObjectName("label_histo_fft_title")
-        self.label_histo_fft_title.setGeometry(QRect(20, 530, 71, 16))
-
-        self.widget_fft = QWidget(self.frame_historique_graphes)
-        self.widget_fft.setObjectName("widget_fft")
-        self.widget_fft.setGeometry(QRect(10, 560, 871, 160))
+        self.widget_courbe.setGeometry(QRect(10, 310, 871, 400))
 
         self.frame_historique_side = QFrame(self.tab_7)
         self.frame_historique_side.setObjectName("frame_historique_side")
@@ -513,62 +505,62 @@ class Ui_MainWindow:
 
         self.label_stats_title = QLabel(self.frame_historique_side)
         self.label_stats_title.setObjectName("label_stats_title")
-        self.label_stats_title.setGeometry(QRect(10, 10, 81, 16))
+        self.label_stats_title.setGeometry(QRect(10, 10, 300, 20))
 
         self.label_stats_moyenne_title = QLabel(self.frame_historique_side)
         self.label_stats_moyenne_title.setObjectName("label_stats_moyenne_title")
-        self.label_stats_moyenne_title.setGeometry(QRect(20, 40, 80, 20))
+        self.label_stats_moyenne_title.setGeometry(QRect(10, 45, 140, 20))
 
         self.label_stats_moyenne_val = QLabel(self.frame_historique_side)
         self.label_stats_moyenne_val.setObjectName("label_stats_moyenne_val")
-        self.label_stats_moyenne_val.setGeometry(QRect(20, 60, 47, 13))
+        self.label_stats_moyenne_val.setGeometry(QRect(10, 68, 150, 22))
 
         self.label_stats_rms_title = QLabel(self.frame_historique_side)
         self.label_stats_rms_title.setObjectName("label_stats_rms_title")
-        self.label_stats_rms_title.setGeometry(QRect(190, 40, 47, 13))
+        self.label_stats_rms_title.setGeometry(QRect(170, 45, 140, 20))
 
         self.label_stats_rms_val = QLabel(self.frame_historique_side)
         self.label_stats_rms_val.setObjectName("label_stats_rms_val")
-        self.label_stats_rms_val.setGeometry(QRect(190, 60, 47, 13))
+        self.label_stats_rms_val.setGeometry(QRect(170, 68, 150, 22))
 
         self.label_stats_min_title = QLabel(self.frame_historique_side)
         self.label_stats_min_title.setObjectName("label_stats_min_title")
-        self.label_stats_min_title.setGeometry(QRect(20, 110, 47, 13))
+        self.label_stats_min_title.setGeometry(QRect(10, 108, 140, 20))
 
         self.label_stats_min_val = QLabel(self.frame_historique_side)
         self.label_stats_min_val.setObjectName("label_stats_min_val")
-        self.label_stats_min_val.setGeometry(QRect(20, 130, 47, 13))
+        self.label_stats_min_val.setGeometry(QRect(10, 130, 150, 22))
 
         self.label_stats_max_title = QLabel(self.frame_historique_side)
         self.label_stats_max_title.setObjectName("label_stats_max_title")
-        self.label_stats_max_title.setGeometry(QRect(190, 110, 47, 13))
+        self.label_stats_max_title.setGeometry(QRect(170, 108, 140, 20))
 
         self.label_stats_max_val = QLabel(self.frame_historique_side)
         self.label_stats_max_val.setObjectName("label_stats_max_val")
-        self.label_stats_max_val.setGeometry(QRect(190, 130, 47, 13))
+        self.label_stats_max_val.setGeometry(QRect(170, 130, 150, 22))
 
         self.label_logs_title = QLabel(self.frame_historique_side)
         self.label_logs_title.setObjectName("label_logs_title")
-        self.label_logs_title.setGeometry(QRect(20, 230, 80, 16))
+        self.label_logs_title.setGeometry(QRect(10, 175, 80, 16))
 
         self.table_logs = QTableWidget(self.frame_historique_side)
         self.table_logs.setObjectName("table_logs")
-        self.table_logs.setGeometry(QRect(10, 260, 301, 231))
+        self.table_logs.setGeometry(QRect(10, 200, 301, 291))
         self.table_logs.setColumnCount(3)
         for i in range(3):
             self.table_logs.setHorizontalHeaderItem(i, QTableWidgetItem())
 
+        self.label_export_title = QLabel(self.frame_historique_side)
+        self.label_export_title.setObjectName("label_export_title")
+        self.label_export_title.setGeometry(QRect(10, 510, 80, 16))
+
         self.combo_export_format = QComboBox(self.frame_historique_side)
         self.combo_export_format.setObjectName("combo_export_format")
-        self.combo_export_format.setGeometry(QRect(10, 560, 301, 51))
+        self.combo_export_format.setGeometry(QRect(10, 535, 301, 51))
 
         self.btn_export_histo = QPushButton(self.frame_historique_side)
         self.btn_export_histo.setObjectName("btn_export_histo")
-        self.btn_export_histo.setGeometry(QRect(10, 620, 301, 41))
-
-        self.label_export_title = QLabel(self.frame_historique_side)
-        self.label_export_title.setObjectName("label_export_title")
-        self.label_export_title.setGeometry(QRect(20, 530, 47, 13))
+        self.btn_export_histo.setGeometry(QRect(10, 600, 301, 41))
 
         self.tabWidget.addTab(self.tab_7, "")
 
@@ -624,7 +616,7 @@ class Ui_MainWindow:
 
         self.label_resolution_adc = QLabel(self.frame_params_gauche)
         self.label_resolution_adc.setObjectName("label_resolution_adc")
-        self.label_resolution_adc.setGeometry(QRect(10, 340, 121, 16))
+        self.label_resolution_adc.setGeometry(QRect(10, 343, 121, 16))
 
         self.label_params_mode_title = QLabel(self.frame_params_gauche)
         self.label_params_mode_title.setObjectName("label_params_mode_title")
@@ -844,7 +836,6 @@ class Ui_MainWindow:
         # Historique
         self.btn_histo_load.setText(_tr("MainWindow", "Charger"))
         self.label_histo_courbe_title.setText(_tr("MainWindow", "Courbe temporelle"))
-        self.label_histo_fft_title.setText(_tr("MainWindow", "Spectre FFT"))
         self.label_stats_title.setText(_tr("MainWindow", "Statistiques"))
         self.label_stats_moyenne_title.setText(_tr("MainWindow", "Moyenne"))
         self.label_stats_moyenne_val.setText(_tr("MainWindow", "--"))

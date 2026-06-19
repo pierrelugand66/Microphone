@@ -58,7 +58,7 @@ class DataManager:
     def sauvegarder_mesure(self, capteur_id, type_trame, valeur, unite, timestamp):
         """Sauvegarde une mesure dans la base"""
         try:
-            date_heure = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+            date_heure = datetime.fromtimestamp(timestamp / 1000 if timestamp > 1e10 else timestamp).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
             curseur = self.connexion.cursor()
             curseur.execute('''
                 INSERT INTO mesures (capteur_id, type, valeur, unite, timestamp, date_heure)
