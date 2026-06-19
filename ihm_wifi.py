@@ -495,7 +495,15 @@ class Ui_MainWindow:
 
         self.widget_courbe = QWidget(self.frame_historique_graphes)
         self.widget_courbe.setObjectName("widget_courbe")
-        self.widget_courbe.setGeometry(QRect(10, 310, 871, 400))
+        self.widget_courbe.setGeometry(QRect(10, 310, 871, 180))
+
+        self.label_histo_samples_title = QLabel(self.frame_historique_graphes)
+        self.label_histo_samples_title.setObjectName("label_histo_samples_title")
+        self.label_histo_samples_title.setGeometry(QRect(20, 500, 200, 16))
+
+        self.widget_samples = QWidget(self.frame_historique_graphes)
+        self.widget_samples.setObjectName("widget_samples")
+        self.widget_samples.setGeometry(QRect(10, 520, 871, 180))
 
         self.frame_historique_side = QFrame(self.tab_7)
         self.frame_historique_side.setObjectName("frame_historique_side")
@@ -562,6 +570,10 @@ class Ui_MainWindow:
         self.btn_export_histo.setObjectName("btn_export_histo")
         self.btn_export_histo.setGeometry(QRect(10, 600, 301, 41))
 
+        self.btn_export_audio = QPushButton(self.frame_historique_side)
+        self.btn_export_audio.setObjectName("btn_export_audio")
+        self.btn_export_audio.setGeometry(QRect(10, 650, 301, 41))
+
         self.tabWidget.addTab(self.tab_7, "")
 
         # ── Onglet Paramètres (tab_8) ─────────────────────────────────────
@@ -588,7 +600,7 @@ class Ui_MainWindow:
 
         self.label_frequence_echantillonage = QLabel(self.frame_params_gauche)
         self.label_frequence_echantillonage.setObjectName("label_frequence_echantillonage")
-        self.label_frequence_echantillonage.setGeometry(QRect(10, 160, 155, 16))
+        self.label_frequence_echantillonage.setGeometry(QRect(10, 163, 155, 16))
 
         self.combo_params_sps = QComboBox(self.frame_params_gauche)
         self.combo_params_sps.setObjectName("combo_params_sps")
@@ -596,7 +608,7 @@ class Ui_MainWindow:
 
         self.label_taille_buffer_fft = QLabel(self.frame_params_gauche)
         self.label_taille_buffer_fft.setObjectName("label_taille_buffer_fft")
-        self.label_taille_buffer_fft.setGeometry(QRect(10, 230, 131, 16))
+        self.label_taille_buffer_fft.setGeometry(QRect(10, 223, 131, 16))
 
         self.combo_params_fft = QComboBox(self.frame_params_gauche)
         self.combo_params_fft.setObjectName("combo_params_fft")
@@ -604,7 +616,7 @@ class Ui_MainWindow:
 
         self.label_frequence_envoie_udp = QLabel(self.frame_params_gauche)
         self.label_frequence_envoie_udp.setObjectName("label_frequence_envoie_udp")
-        self.label_frequence_envoie_udp.setGeometry(QRect(10, 290, 155, 16))
+        self.label_frequence_envoie_udp.setGeometry(QRect(10, 283, 155, 16))
 
         self.combo_params_udp = QComboBox(self.frame_params_gauche)
         self.combo_params_udp.setObjectName("combo_params_udp")
@@ -624,7 +636,7 @@ class Ui_MainWindow:
 
         self.label_mode_fonctionnement = QLabel(self.frame_params_gauche)
         self.label_mode_fonctionnement.setObjectName("label_mode_fonctionnement")
-        self.label_mode_fonctionnement.setGeometry(QRect(10, 490, 141, 16))
+        self.label_mode_fonctionnement.setGeometry(QRect(10, 493, 155, 16))
 
         self.combo_params_mode = QComboBox(self.frame_params_gauche)
         self.combo_params_mode.setObjectName("combo_params_mode")
@@ -632,7 +644,7 @@ class Ui_MainWindow:
 
         self.label_mode_fonctionnement_2 = QLabel(self.frame_params_gauche)
         self.label_mode_fonctionnement_2.setObjectName("label_mode_fonctionnement_2")
-        self.label_mode_fonctionnement_2.setGeometry(QRect(10, 570, 101, 16))
+        self.label_mode_fonctionnement_2.setGeometry(QRect(10, 563, 155, 16))
 
         self.combo_params_timeout = QComboBox(self.frame_params_gauche)
         self.combo_params_timeout.setObjectName("combo_params_timeout")
@@ -835,7 +847,8 @@ class Ui_MainWindow:
 
         # Historique
         self.btn_histo_load.setText(_tr("MainWindow", "Charger"))
-        self.label_histo_courbe_title.setText(_tr("MainWindow", "Courbe temporelle"))
+        self.label_histo_courbe_title.setText(_tr("MainWindow", "Niveau RMS"))
+        self.label_histo_samples_title.setText(_tr("MainWindow", "Signal audio temporel"))
         self.label_stats_title.setText(_tr("MainWindow", "Statistiques"))
         self.label_stats_moyenne_title.setText(_tr("MainWindow", "Moyenne"))
         self.label_stats_moyenne_val.setText(_tr("MainWindow", "--"))
@@ -849,7 +862,8 @@ class Ui_MainWindow:
         self.table_logs.horizontalHeaderItem(0).setText(_tr("MainWindow", "Heure"))
         self.table_logs.horizontalHeaderItem(1).setText(_tr("MainWindow", "Valeur"))
         self.table_logs.horizontalHeaderItem(2).setText(_tr("MainWindow", "Unité"))
-        self.btn_export_histo.setText(_tr("MainWindow", "Exporter les données"))
+        self.btn_export_histo.setText(_tr("MainWindow", "Exporter données RMS"))
+        self.btn_export_audio.setText(_tr("MainWindow", "Exporter données audio"))
         self.label_export_title.setText(_tr("MainWindow", "EXPORT"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_7), _tr("MainWindow", "Historique"))
 

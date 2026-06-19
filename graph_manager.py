@@ -7,9 +7,10 @@ pg.setConfigOption('background', 'w')
 pg.setConfigOption('foreground', 'k')
 
 class GraphManager:
-    def __init__(self, widget_signal, widget_fft=None, max_points=256):
+    def __init__(self, widget_signal, widget_fft=None, widget_samples=None, max_points=256):
         self.max_points = max_points
         self._has_fft = widget_fft is not None
+        self._has_samples = widget_samples is not None
         
         # Buffer circulaire pour le signal temporel
         self.buffer_signal = deque([0.0] * max_points, maxlen=max_points)
@@ -65,6 +66,23 @@ class GraphManager:
                 layout_fft = QVBoxLayout(widget_fft)
                 widget_fft.setLayout(layout_fft)
             layout_fft.addWidget(self.plot_fft)
+        
+        if self._has_samples:
+            self.plot_samples = pg.PlotWidget()
+            self.plot_samples.setTitle("Signal audio temporel")
+            self.plot_samples.setLabel('left', 'Amplitude', units='LSB')
+            self.plot_samples.setLabel('bottom', 'Temps', units='min')
+            self.plot_samples.showGrid(x=True, y=True, alpha=0.3)
+            self.plot_samples.setYRange(-32768, 32768)
+            self.courbe_samples = self.plot_samples.plot(
+                pen=pg.mkPen(color='#378ADD', width=1.0)
+            )
+            layout_samples = widget_samples.layout()
+            if layout_samples is None:
+                from PySide6.QtWidgets import QVBoxLayout
+                layout_samples = QVBoxLayout(widget_samples)
+                widget_samples.setLayout(layout_samples)
+            layout_samples.addWidget(self.plot_samples)
 
     def maj_signal(self, valeur):
         self.buffer_signal.append(valeur)
@@ -101,3 +119,5 @@ class GraphManager:
         self.courbe_signal.setData(list(self.buffer_signal))
         if self._has_fft:
             self.courbe_fft.setData([], [])
+        if self._has_samples:
+            self.courbe_samples.setData([], [])

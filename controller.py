@@ -104,6 +104,7 @@ class MainController(QMainWindow):
         )
         self.graph_histo = GraphManager(
             self.ui.widget_courbe,
+            widget_samples=self.ui.widget_samples,
             max_points=3200
         )
         self._timer_graph = QTimer(self)
@@ -161,11 +162,11 @@ class MainController(QMainWindow):
 
     def _init_params(self):
         """Remplit les combos de l'onglet Paramètres et charge les valeurs sauvegardées."""
-        self.ui.combo_params_sps.addItems(["100 Hz", "500 Hz", "1000 Hz", "5000 Hz", "10000 Hz"])
+        self.ui.combo_params_sps.addItems(["8000 Hz", "16000 Hz", "22050 Hz", "44100 Hz", "48000 Hz"])
         self.ui.combo_params_fft.addItems(["128", "256", "512", "1024", "2048"])
         self.ui.combo_params_udp.addItems(["1 Hz", "5 Hz", "10 Hz", "50 Hz", "100 Hz"])
         self.ui.combo_params_resolution.addItems(["8 bits", "10 bits", "12 bits", "16 bits"])
-        self.ui.combo_params_mode.addItems(["Continu", "Déclenché", "Mode éco"])
+        self.ui.combo_params_mode.addItems(["Continu", "Mode éco"])
         self.ui.combo_params_timeout.addItems(["10 s", "30 s", "60 s", "120 s", "300 s"])
 
         params = self._charger_params_fichier()
@@ -232,6 +233,8 @@ class MainController(QMainWindow):
         """Initialise les widgets de l'onglet Historique au démarrage."""
         self.ui.combo_histo_periode.clear()
         self.ui.combo_histo_periode.addItems([
+            "Dernière minute",
+            "Dernières 30 minutes",
             "Dernière heure",
             "Dernières 6 heures",
             "Dernières 24 heures",
@@ -251,6 +254,7 @@ class MainController(QMainWindow):
         self.ui.datetime_histo_fin.setDateTime(maintenant)
 
         self._on_periode_changed(0)
+        self.ui.btn_export_audio.setEnabled(False)
 
         self.ui.table_logs.setColumnCount(3)
         self.ui.table_logs.setHorizontalHeaderLabels(["Heure", "Valeur", "Unité"])
@@ -275,9 +279,11 @@ class MainController(QMainWindow):
         
     def _on_periode_changed(self, index):
         """Active/désactive les DateTimeEdit selon la période sélectionnée."""
-        personnalise = (index == 4)
+        personnalise = (index == 6)
         self.ui.datetime_histo_debut.setEnabled(personnalise)
         self.ui.datetime_histo_fin.setEnabled(personnalise)
+        audio_disponible = index in (0, 1)
+        self.ui.btn_export_audio.setEnabled(audio_disponible)
 
     def _periode_vers_timestamps(self):
         """Retourne (debut_ts, fin_ts) en secondes Unix selon la période sélectionnée."""
@@ -285,10 +291,12 @@ class MainController(QMainWindow):
         maintenant = datetime.now()
 
         deltas = {
-            0: timedelta(hours=1),
-            1: timedelta(hours=6),
-            2: timedelta(hours=24),
-            3: timedelta(weeks=1),
+            0: timedelta(minutes=1),
+            1: timedelta(minutes=30),
+            2: timedelta(hours=1),
+            3: timedelta(hours=6),
+            4: timedelta(hours=24),
+            5: timedelta(weeks=1),
         }
 
         if index in deltas:
@@ -357,6 +365,7 @@ class MainController(QMainWindow):
         # Historique
         self.ui.btn_histo_load.clicked.connect(self.charger_historique)
         self.ui.btn_export_histo.clicked.connect(self.exporter_historique)
+        self.ui.btn_export_audio.clicked.connect(self.exporter_audio)
 
         # Paramètres
         self.ui.btn_params_appliquer.clicked.connect(self.appliquer_parametres)
@@ -535,7 +544,8 @@ class MainController(QMainWindow):
             type_trame="MIC",
             valeur=float(rms),
             unite="raw",
-            timestamp=int(datetime.now().timestamp() * 1000)
+            timestamp=int(datetime.now().timestamp() * 1000),
+            samples=data_mic
         )
         self._ajouter_capteur_combo(self._capteur_id_courant)
 
@@ -803,7 +813,7 @@ class MainController(QMainWindow):
             return
 
         self.ui.table_logs.setRowCount(len(mesures))
-        for row, (date_heure, valeur, unite) in enumerate(mesures):
+        for row, (date_heure, valeur, unite, samples) in enumerate(mesures):
             self.ui.table_logs.setItem(row, 0, QTableWidgetItem(str(date_heure)))
             item_val = QTableWidgetItem(f"{valeur:.4f}" if valeur is not None else "--")
             item_val.setTextAlignment(Qt.AlignmentFlag.AlignRight | Qt.AlignmentFlag.AlignVCenter)
@@ -811,7 +821,7 @@ class MainController(QMainWindow):
             self.ui.table_logs.setItem(row, 2, QTableWidgetItem(str(unite) if unite else ""))
         self.ui.table_logs.resizeColumnsToContents()
 
-        valeurs = [v for _, v, _ in mesures if v is not None]
+        valeurs = [v for _, v, _, _ in mesures if v is not None]
         if valeurs:
             arr = np.array(valeurs)
             unite_affichee = mesures[0][2] or ""
@@ -828,14 +838,40 @@ class MainController(QMainWindow):
                 datetime.strptime(dh, '%Y-%m-%d %H:%M:%S.%f').timestamp()
                 if '.' in dh else
                 datetime.strptime(dh, '%Y-%m-%d %H:%M:%S').timestamp()
-                for dh, v, _ in mesures if v is not None
+                for dh, v, _, _ in mesures if v is not None
             ]
             t0 = timestamps[0]
-            t_s = [t - t0 for t in timestamps]
-            self.graph_histo.plot_signal.setTitle("Niveau RMS au fil du temps")
+            t_s = [(t - t0) / 60 for t in timestamps]
+            self.graph_histo.plot_signal.setTitle("Niveau RMS")
             self.graph_histo.plot_signal.setLabel('left', 'RMS (raw)')
-            self.graph_histo.plot_signal.setLabel('bottom', 'Temps', units='s')
+            self.graph_histo.plot_signal.setLabel('bottom', 'Temps', units='min')
             self.graph_histo.courbe_signal.setData(t_s, valeurs, pen=None, symbol='o', symbolSize=3, symbolBrush='#378ADD')
+            # Signal brut si période <= 30 minutes
+            index = self.ui.combo_histo_periode.currentIndex()
+            if index in (0, 1) and self.graph_histo._has_samples:
+                tous_samples = []
+                for _, _, _, samples_json in mesures:
+                    if samples_json:
+                        try:
+                            tous_samples.extend(json.loads(samples_json))
+                        except Exception:
+                            pass
+                if tous_samples:
+                    t_samples = np.linspace(0, t_s[-1], len(tous_samples))
+                    self.graph_histo.courbe_samples.setData(t_samples, tous_samples)
+                    self.graph_histo.plot_samples.setLabel('bottom', 'Temps', units='min')
+                    self._mesures_audio = list(zip(t_samples.tolist(), tous_samples))
+                else:
+                    self._mesures_audio = []
+                self.graph_histo.plot_samples.setVisible(True)
+                self.ui.btn_export_audio.setEnabled(bool(self._mesures_audio))
+            else:
+                if self.graph_histo._has_samples:
+                    self.graph_histo.courbe_samples.setData([], [])
+                    self.graph_histo.plot_samples.setVisible(False)
+                    self.ui.btn_export_audio.setEnabled(False)
+                    self._mesures_audio = []
+
             print(f"Historique chargé : {len(mesures)} mesures")
 
     def _reinitialiser_stats(self):
@@ -896,6 +932,27 @@ class MainController(QMainWindow):
         except Exception as e:
             QMessageBox.critical(self, "Erreur export", f"Échec de l'export :\n{e}")
             print(f"Erreur export : {e}")
+
+    def exporter_audio(self):
+        """Exporte les échantillons audio bruts en CSV."""
+        if not hasattr(self, '_mesures_audio') or not self._mesures_audio:
+            QMessageBox.warning(self, "Export", "Aucune donnée audio. Chargez d'abord 1 minute ou 30 minutes.")
+            return
+
+        nom_defaut = f"audio_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        chemin, _ = QFileDialog.getSaveFileName(self, "Exporter signal audio", nom_defaut, "CSV (*.csv)")
+        if not chemin:
+            return
+
+        try:
+            with open(chemin, "w", newline="", encoding="utf-8") as f:
+                writer = csv.writer(f)
+                writer.writerow(["temps_s", "amplitude"])
+                for temps_s, valeur in self._mesures_audio:
+                    writer.writerow([f"{temps_s:.6f}".replace('.', ','), str(valeur).replace('.', ',')])
+            QMessageBox.information(self, "Export réussi", f"{len(self._mesures_audio)} échantillons exportés vers :\n{chemin}")
+        except Exception as e:
+            QMessageBox.critical(self, "Erreur export", f"Échec :\n{e}")
 
     def exporter_logs(self):
         """Exporte les logs bruts depuis la DB en CSV."""

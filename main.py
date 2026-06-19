@@ -2,6 +2,7 @@ import sys
 from PySide6.QtWidgets import QApplication
 from controller import MainController
 from dialog_connexion import DialogConnexion
+from PySide6.QtGui import QIcon
 
 
 def main():
@@ -19,6 +20,7 @@ def main():
 
     # ── Lancer l'IHM principale avec le mode choisi ──
     window = MainController(mode=mode, ip_distante=ip_dist)
+    window.setWindowIcon(QIcon("logo.ico"))
     window.show()
     sys.exit(app.exec())
 

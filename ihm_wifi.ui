@@ -1450,7 +1450,30 @@
                                             <x>10</x>
                                             <y>310</y>
                                             <width>871</width>
-                                            <height>400</height>
+                                            <height>180</height>
+                                        </rect>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" name="label_histo_samples_title">
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>20</x>
+                                            <y>500</y>
+                                            <width>200</width>
+                                            <height>16</height>
+                                        </rect>
+                                    </property>
+                                    <property name="text">
+                                        <string>Signal temporel brut</string>
+                                    </property>
+                                </widget>
+                                <widget class="QWidget" name="widget_samples" native="true">
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>10</x>
+                                            <y>520</y>
+                                            <width>871</width>
+                                            <height>180</height>
                                         </rect>
                                     </property>
                                 </widget>
@@ -1661,6 +1684,19 @@
                                     </property>
                                     <property name="text">
                                         <string>Exporter les données</string>
+                                    </property>
+                                </widget>
+                                <widget class="QPushButton" name="btn_export_audio">
+                                    <property name="geometry">
+                                        <rect>
+                                            <x>10</x>
+                                            <y>650</y>
+                                            <width>301</width>
+                                            <height>41</height>
+                                        </rect>
+                                    </property>
+                                    <property name="text">
+                                        <string>Exporter signal audio</string>
                                     </property>
                                 </widget>
                             </widget>

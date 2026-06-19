@@ -52,18 +52,24 @@ class DataManager:
             )
         ''')
 
+        try:
+            curseur.execute("ALTER TABLE mesures ADD COLUMN samples TEXT")
+        except Exception:
+            pass  # colonne déjà existante
+
         self.connexion.commit()
         print(f"Base de données initialisée : {self.db_path}")
 
-    def sauvegarder_mesure(self, capteur_id, type_trame, valeur, unite, timestamp):
-        """Sauvegarde une mesure dans la base"""
+    def sauvegarder_mesure(self, capteur_id, type_trame, valeur, unite, timestamp, samples=None):
         try:
+            import json
             date_heure = datetime.fromtimestamp(timestamp / 1000 if timestamp > 1e10 else timestamp).strftime('%Y-%m-%d %H:%M:%S.%f')[:-3]
+            samples_json = json.dumps(samples) if samples is not None else None
             curseur = self.connexion.cursor()
             curseur.execute('''
-                INSERT INTO mesures (capteur_id, type, valeur, unite, timestamp, date_heure)
-                VALUES (?, ?, ?, ?, ?, ?)
-            ''', (capteur_id, type_trame, valeur, unite, timestamp, date_heure))
+                INSERT INTO mesures (capteur_id, type, valeur, unite, timestamp, date_heure, samples)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
+            ''', (capteur_id, type_trame, valeur, unite, timestamp, date_heure, samples_json))
             self.connexion.commit()
         except Exception as e:
             print(f"Erreur sauvegarde mesure : {e}")
@@ -100,7 +106,7 @@ class DataManager:
         """Charge les mesures depuis la base avec filtres optionnels"""
         try:
             curseur = self.connexion.cursor()
-            requete = "SELECT date_heure, valeur, unite FROM mesures WHERE 1=1"
+            requete = "SELECT date_heure, valeur, unite, samples FROM mesures WHERE 1=1"
             params = []
             if capteur_id:
                 requete += " AND capteur_id = ?"
