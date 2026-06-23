@@ -390,7 +390,7 @@ class MainController(QMainWindow):
 
         # ── Gérer CARTE_DISPO en mode distant ──
         if isinstance(trame, str) and trame.startswith("CARTE_DISPO"):
-            self.udp.envoyer("Envoi requete adresse IP", self.ip_carte_selectionnee or "")
+            self.udp.envoyer("Envoi requete adresse IP", ip)
             return
 
         #Trame texte 
@@ -477,6 +477,8 @@ class MainController(QMainWindow):
             self._ajouter_capteur_combo(capteur_id)
 
     def _traiter_mic(self, data, ip):
+        if self.ip_carte_selectionnee is not None and ip != self.ip_carte_selectionnee:
+            return
         if not self._mic_enregistre:
             self._capteur_id_courant = data.get("ID")
             self._ajouter_capteur_table(data.get("ID"), "MIC", ip, "Connecté", "Acquisition audio")
@@ -602,7 +604,8 @@ class MainController(QMainWindow):
         if ip not in self.cartes_connues:
             self.cartes_connues.add(ip)
             self.ui.list_cartes.addItem(f"Carte — IP: {ip}")
-            self.ip_carte_selectionnee = ip  # ← sélection automatique
+            if self.ip_carte_selectionnee is None:  # sélection automatique uniquement à la première carte
+                self.ip_carte_selectionnee = ip
             self.ui.label_carte_cible_val.setText(f"Carte cible : {ip}")
             self.statusBar().showMessage(f"Carte sélectionnée : {ip}")
             self.setWindowTitle(f"IHM Wi-Fi — Microcontrôleur — {ip}")
@@ -635,6 +638,7 @@ class MainController(QMainWindow):
 
     def afficher_ip_carte(self, item):
         self.ip_carte_selectionnee = item.text().replace("Carte — IP: ", "")
+        self._mic_enregistre = False  
         self.ui.label_carte_cible_val.setText(f"Carte cible : {self.ip_carte_selectionnee}")
         self.statusBar().showMessage(f"Carte sélectionnée : {self.ip_carte_selectionnee}")
 

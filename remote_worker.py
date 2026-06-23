@@ -120,7 +120,6 @@ class RemoteWorker(QObject):
         self.envoyer(trame)
 
     def _post_commande(self, trame: str):
-        """Envoie la commande au serveur FastAPI en arrière-plan."""
         try:
             resp = requests.post(
                 f"{self.base_url}/commande",
@@ -128,11 +127,7 @@ class RemoteWorker(QObject):
                 timeout=5
             )
             if resp.status_code == 200:
-                data = resp.json()
-                ack  = data.get("ack", "")
-                if ack:
-                    self.ack_recu.emit(ack, self.ip_serveur)
-                print(f"[HTTP] → {trame} | ← {ack}")
+                print(f"[HTTP] → {trame} | OK")
             else:
                 print(f"[HTTP] Erreur {resp.status_code} pour : {trame}")
         except requests.exceptions.ConnectionError:
